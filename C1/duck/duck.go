@@ -29,6 +29,14 @@ type Duck struct {
 	flyBehavior   IFlyBehavior
 }
 
+func NewDuck(color string, quackBehavior IQuackBehavior, flyBehavior IFlyBehavior) *Duck {
+	return &Duck{
+		Color:         color,
+		quackBehavior: quackBehavior,
+		flyBehavior:   flyBehavior,
+	}
+}
+
 func (d *Duck) Display() {
 	fmt.Printf("I am a %s duck🦆\n", d.Color)
 }
@@ -56,11 +64,7 @@ type ModelDuck struct {
 
 func NewModelDuck(color string, quackBehavior IQuackBehavior, flyBehavior IFlyBehavior) *ModelDuck {
 	return &ModelDuck{
-		Duck: &Duck{
-			Color:         color,
-			quackBehavior: quackBehavior,
-			flyBehavior:   flyBehavior,
-		},
+		Duck: NewDuck(color, quackBehavior, flyBehavior),
 	}
 }
 
@@ -75,11 +79,7 @@ type BigDuck struct {
 
 func NewBigDuck(color string, quackBehavior IQuackBehavior, flyBehavior IFlyBehavior) *BigDuck {
 	return &BigDuck{
-		Duck: &Duck{
-			Color:         color,
-			quackBehavior: quackBehavior,
-			flyBehavior:   flyBehavior,
-		},
+		Duck: NewDuck(color, quackBehavior, flyBehavior),
 	}
 }
 
