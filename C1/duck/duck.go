@@ -2,12 +2,6 @@ package duck
 
 import "fmt"
 
-// Duck abstract interface
-type Duck interface {
-	Quack()
-	Fly()
-}
-
 // FlyBehavior abstract interface
 type flyBehavior interface {
 	DoFly()
@@ -18,50 +12,77 @@ type quackBehavior interface {
 	DoQuack()
 }
 
-// GreenDuck type
-type GreenDuck struct {
+// Duck abstract interface
+type AbstractDuck interface {
+	Display()
+	Quack()
+	Fly()
+	SetQuackBehavior(quackBehavior)
+	SetFlyBehavior(flyBehavior)
+}
+
+// Duck type
+type Duck struct {
 	Color         string
 	QuackBehavior quackBehavior
 	FlyBehavior   flyBehavior
 }
 
-func (d *GreenDuck) Display() {
+func (d *Duck) Display() {
 	fmt.Printf("I am a %s duck🦆\n", d.Color)
 }
 
-func (d *GreenDuck) Quack() {
+func (d *Duck) Quack() {
 	d.QuackBehavior.DoQuack()
 }
 
-func (d *GreenDuck) Fly() {
+func (d *Duck) Fly() {
 	d.FlyBehavior.DoFly()
+}
+
+func (d *Duck) SetQuackBehavior(quackBehavior quackBehavior) {
+	d.QuackBehavior = quackBehavior
+}
+
+func (d *Duck) SetFlyBehavior(flyBehavior flyBehavior) {
+	d.FlyBehavior = flyBehavior
 }
 
 // ModelDuck type
 type ModelDuck struct {
-	Color         string
-	QuackBehavior quackBehavior
-	FlyBehavior   flyBehavior
+	*Duck
 }
 
+func NewModelDuck(color string, quackBehavior quackBehavior, flyBehavior flyBehavior) *ModelDuck {
+	return &ModelDuck{
+		Duck: &Duck{
+			Color:         color,
+			QuackBehavior: quackBehavior,
+			FlyBehavior:   flyBehavior,
+		},
+	}
+}
 func (d *ModelDuck) Display() {
 	fmt.Printf("I am a %s model duck🦆\n", d.Color)
 }
 
-func (d *ModelDuck) SetQuackBehavior(quackBehavior quackBehavior) {
-	d.QuackBehavior = quackBehavior
+// BigDuck type
+type BigDuck struct {
+	*Duck
 }
 
-func (d *ModelDuck) SetFlyBehavior(flyBehavior flyBehavior) {
-	d.FlyBehavior = flyBehavior
+func NewBigDuck(color string, quackBehavior quackBehavior, flyBehavior flyBehavior) *BigDuck {
+	return &BigDuck{
+		Duck: &Duck{
+			Color:         color,
+			QuackBehavior: quackBehavior,
+			FlyBehavior:   flyBehavior,
+		},
+	}
 }
 
-func (d *ModelDuck) Quack() {
-	d.QuackBehavior.DoQuack()
-}
-
-func (d *ModelDuck) Fly() {
-	d.FlyBehavior.DoFly()
+func (d *BigDuck) Display() {
+	fmt.Printf("I am a %s big duck🦆\n", d.Color)
 }
 
 // FlyWithWings implements FlyBehavior
@@ -107,37 +128,30 @@ func (m *MuteQuack) DoQuack() {
 }
 
 func DuckImplements() {
-	duck := &GreenDuck{
-		Color:         "green",
-		QuackBehavior: &Quack{},
-		FlyBehavior:   &FlyWithWings{},
-	}
+	var duck AbstractDuck
+	duck = NewBigDuck("green", &Quack{}, &FlyWithWings{})
 
-	// Green duck
+	// Green big duck
 	duck.Display()
 	duck.Quack()
 	duck.Fly()
 
-	modelDuck := &ModelDuck{
-		Color:         "black",
-		QuackBehavior: &Squeak{},
-		FlyBehavior:   &FlyLikeRocket{},
-	}
+	// Change to a new duck
+	duck = NewModelDuck("black", &Squeak{}, &FlyLikeRocket{})
 
 	// Original model duck
-	modelDuck.Display()
-	modelDuck.Quack()
-	modelDuck.Fly()
+	duck.Display()
+	duck.Quack()
+	duck.Fly()
 
 	fmt.Println("-----Model duck flied for a while-----")
 
 	// Transformed model duck
-	modelDuck.Display()
-	modelDuck.SetFlyBehavior(&FlyNoWay{})
-	modelDuck.SetQuackBehavior(&MuteQuack{})
-	// Same as:
-	// modelDuck.QuackBehavior = &MuteQuack{}
-	// modelDuck.FlyBehavior = &FlyNoWay{}
-	modelDuck.Quack()
-	modelDuck.Fly()
+	duck.Display()
+	// You could only use these methods to change the behavior
+	// of the duck if you are not using a detailed duck type
+	duck.SetFlyBehavior(&FlyNoWay{})
+	duck.SetQuackBehavior(&MuteQuack{})
+	duck.Quack()
+	duck.Fly()
 }
