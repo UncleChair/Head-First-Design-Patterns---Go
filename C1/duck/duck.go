@@ -3,29 +3,30 @@ package duck
 import "fmt"
 
 // FlyBehavior abstract interface
-type flyBehavior interface {
+type IFlyBehavior interface {
 	DoFly()
 }
 
 // QuackBehavior abstract interface
-type quackBehavior interface {
+type IQuackBehavior interface {
 	DoQuack()
 }
 
 // Duck abstract interface
-type AbstractDuck interface {
+type IDuck interface {
 	Display()
 	Quack()
 	Fly()
-	SetQuackBehavior(quackBehavior)
-	SetFlyBehavior(flyBehavior)
+	SetQuackBehavior(IQuackBehavior)
+	SetFlyBehavior(IFlyBehavior)
 }
 
 // Duck type
 type Duck struct {
-	Color         string
-	QuackBehavior quackBehavior
-	FlyBehavior   flyBehavior
+	Color string
+	// Set behaviors as internal to only allow modification from functions
+	quackBehavior IQuackBehavior
+	flyBehavior   IFlyBehavior
 }
 
 func (d *Duck) Display() {
@@ -33,19 +34,19 @@ func (d *Duck) Display() {
 }
 
 func (d *Duck) Quack() {
-	d.QuackBehavior.DoQuack()
+	d.quackBehavior.DoQuack()
 }
 
 func (d *Duck) Fly() {
-	d.FlyBehavior.DoFly()
+	d.flyBehavior.DoFly()
 }
 
-func (d *Duck) SetQuackBehavior(quackBehavior quackBehavior) {
-	d.QuackBehavior = quackBehavior
+func (d *Duck) SetQuackBehavior(quackBehavior IQuackBehavior) {
+	d.quackBehavior = quackBehavior
 }
 
-func (d *Duck) SetFlyBehavior(flyBehavior flyBehavior) {
-	d.FlyBehavior = flyBehavior
+func (d *Duck) SetFlyBehavior(flyBehavior IFlyBehavior) {
+	d.flyBehavior = flyBehavior
 }
 
 // ModelDuck type
@@ -53,15 +54,16 @@ type ModelDuck struct {
 	*Duck
 }
 
-func NewModelDuck(color string, quackBehavior quackBehavior, flyBehavior flyBehavior) *ModelDuck {
+func NewModelDuck(color string, quackBehavior IQuackBehavior, flyBehavior IFlyBehavior) *ModelDuck {
 	return &ModelDuck{
 		Duck: &Duck{
 			Color:         color,
-			QuackBehavior: quackBehavior,
-			FlyBehavior:   flyBehavior,
+			quackBehavior: quackBehavior,
+			flyBehavior:   flyBehavior,
 		},
 	}
 }
+
 func (d *ModelDuck) Display() {
 	fmt.Printf("I am a %s model duck🦆\n", d.Color)
 }
@@ -71,12 +73,12 @@ type BigDuck struct {
 	*Duck
 }
 
-func NewBigDuck(color string, quackBehavior quackBehavior, flyBehavior flyBehavior) *BigDuck {
+func NewBigDuck(color string, quackBehavior IQuackBehavior, flyBehavior IFlyBehavior) *BigDuck {
 	return &BigDuck{
 		Duck: &Duck{
 			Color:         color,
-			QuackBehavior: quackBehavior,
-			FlyBehavior:   flyBehavior,
+			quackBehavior: quackBehavior,
+			flyBehavior:   flyBehavior,
 		},
 	}
 }
@@ -128,7 +130,7 @@ func (m *MuteQuack) DoQuack() {
 }
 
 func DuckImplements() {
-	var duck AbstractDuck
+	var duck IDuck
 	duck = NewBigDuck("green", &Quack{}, &FlyWithWings{})
 
 	// Green big duck
