@@ -60,7 +60,3 @@ func (w *WeatherData) SayHi() {
 
 // WeatherData implements observer.Subject interface
 var _ observer.Subject = (*WeatherData)(nil)
-
-func WeatherImplements() {
-	// TODO
-}
