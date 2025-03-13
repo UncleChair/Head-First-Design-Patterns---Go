@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"observer/dashboard"
 	"observer/weather"
 )
 
@@ -12,8 +13,17 @@ func main() {
 
 	switch *mode {
 	case "weather":
-		weather.WeatherImplements()
+		WeatherImplements()
 	default:
 		fmt.Println("Usage: run with -mode=weather")
 	}
+}
+
+func WeatherImplements() {
+	weatherData := weather.NewWeatherData()
+	CurrentConditionsDisplay := dashboard.NewCurrentConditionDashboard(weatherData)
+	weatherData.RegisterObserver(CurrentConditionsDisplay)
+	weatherData.SetMeasurements(20.5, 65, 1.0)
+	weatherData.SetMeasurements(24.5, 55, 1.1)
+	weatherData.SetMeasurements(22.5, 75, 0.9)
 }
