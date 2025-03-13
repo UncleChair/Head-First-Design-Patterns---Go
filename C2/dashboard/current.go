@@ -17,7 +17,7 @@ func NewCurrentConditionDashboard(weatherData *weather.WeatherData) *CurrentCond
 }
 
 func (c *CurrentConditionDashboard) Display() {
-	fmt.Printf("Current conditions: %f degrees and %f%% humidity\n", c.temperature, c.humidity)
+	fmt.Printf("Current conditions: %.1f degrees and %.2f%% humidity\n", c.temperature, c.humidity)
 }
 
 func (c *CurrentConditionDashboard) Update(temperature float32, humidity float32, pressure float32) {
