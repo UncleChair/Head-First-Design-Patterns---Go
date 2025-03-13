@@ -58,6 +58,9 @@ func (w *WeatherData) SayHi() {
 	fmt.Println("Hello, I am WeatherData!")
 }
 
+// WeatherData implements observer.Subject interface
+var _ observer.Subject = (*WeatherData)(nil)
+
 func WeatherImplements() {
 	// TODO
 }
