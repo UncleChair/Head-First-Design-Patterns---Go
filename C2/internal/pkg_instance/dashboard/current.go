@@ -2,8 +2,8 @@ package dashboard
 
 import (
 	"fmt"
-	"observer/internal/instance/weather"
-	"observer/internal/util/observer"
+	"observer/internal/pkg/observer"
+	"observer/internal/pkg_instance/weather"
 )
 
 type CurrentConditionDashboard struct {

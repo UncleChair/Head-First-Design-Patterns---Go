@@ -2,7 +2,7 @@ package weather
 
 import (
 	"fmt"
-	"observer/internal/util/observer"
+	"observer/internal/pkg/observer"
 )
 
 type WeatherData struct {
