@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"observer/internal/instance/dashboard"
-	"observer/internal/instance/weather"
+	"observer/internal/pkg_instance/dashboard"
+	"observer/internal/pkg_instance/weather"
 )
 
 func main() {
