@@ -19,6 +19,13 @@ type Observable struct {
 	observers map[int]Observer
 }
 
+func NewObservable() *Observable {
+	return &Observable{
+		changed:   false,
+		observers: make(map[int]Observer),
+	}
+}
+
 func (o *Observable) SetChanged() {
 	o.changed = true
 }
