@@ -1,6 +1,8 @@
 package main
 
 import (
+	"command/internal/command"
+	"command/internal/controller"
 	"flag"
 	"fmt"
 )
@@ -19,4 +21,11 @@ func main() {
 
 func CommandImplements() {
 	fmt.Println("This is Command Pattern Implements in Go")
+	var (
+		remote  = controller.NewSimpleRemoteControl()
+		light   = command.NewLight(100)
+		lightOn = command.LightOnCommand(light)
+	)
+	remote.SetCommand(lightOn)
+	remote.ButtonWasPressed()
 }
