@@ -57,6 +57,10 @@ func (c *StereoOnWithCDCommand) Execute() {
 	c.Stereo.SetVolume(11)
 }
 
+func (c *StereoOnWithCDCommand) Undo() {
+	c.Stereo.Off()
+}
+
 type StereoOffCommand struct {
 	Stereo *Stereo
 }
@@ -67,4 +71,10 @@ func NewStereoOffCommand(stereo *Stereo) *StereoOffCommand {
 
 func (c *StereoOffCommand) Execute() {
 	c.Stereo.Off()
+}
+
+func (c *StereoOffCommand) Undo() {
+	c.Stereo.On()
+	c.Stereo.SetCD()
+	c.Stereo.SetVolume(11)
 }

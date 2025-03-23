@@ -34,6 +34,10 @@ func (l *LightOnCommand) Execute() {
 	l.Light.On()
 }
 
+func (l *LightOnCommand) Undo() {
+	l.Light.Off()
+}
+
 type LightOffCommand struct {
 	*Light
 }
@@ -46,4 +50,8 @@ func NewLightOffCommand(light *Light) *LightOffCommand {
 
 func (l *LightOffCommand) Execute() {
 	l.Light.Off()
+}
+
+func (l *LightOffCommand) Undo() {
+	l.Light.On()
 }
