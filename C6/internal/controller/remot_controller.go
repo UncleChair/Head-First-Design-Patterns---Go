@@ -2,6 +2,11 @@ package controller
 
 import (
 	"command/internal/command"
+	"fmt"
+)
+
+const (
+	MaxSlots = 7
 )
 
 type RemoteControl struct {
@@ -11,8 +16,8 @@ type RemoteControl struct {
 
 func NewRemoteControl() *RemoteControl {
 	return &RemoteControl{
-		onCommands:  make([]command.Command, 7),
-		offCommands: make([]command.Command, 7),
+		onCommands:  make([]command.Command, MaxSlots),
+		offCommands: make([]command.Command, MaxSlots),
 	}
 }
 
@@ -22,9 +27,25 @@ func (r *RemoteControl) SetCommand(slot int, onCommand command.Command, offComma
 }
 
 func (r *RemoteControl) OnButtonWasPushed(slot int) {
-	r.onCommands[slot].Execute()
+	if slot < 0 || slot >= MaxSlots {
+		fmt.Println("Invalid slot", slot)
+		return
+	}
+	if r.onCommands[slot] != nil {
+		r.onCommands[slot].Execute()
+		return
+	}
+	fmt.Println("Slot", slot, "is not assigned to any command")
 }
 
 func (r *RemoteControl) OffButtonWasPushed(slot int) {
-	r.offCommands[slot].Execute()
+	if slot < 0 || slot >= MaxSlots {
+		fmt.Println("Invalid slot", slot)
+		return
+	}
+	if r.offCommands[slot] != nil {
+		r.offCommands[slot].Execute()
+		return
+	}
+	fmt.Println("Slot", slot, "is not assigned to any command")
 }

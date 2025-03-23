@@ -45,4 +45,10 @@ func CommandImplements() {
 	remoteControl.OffButtonWasPushed(0)
 	remoteControl.OnButtonWasPushed(1)
 	remoteControl.OffButtonWasPushed(1)
+
+	remoteControl.OnButtonWasPushed(2)
+	remoteControl.OffButtonWasPushed(2)
+
+	remoteControl.OnButtonWasPushed(9)
+	remoteControl.OffButtonWasPushed(9)
 }
