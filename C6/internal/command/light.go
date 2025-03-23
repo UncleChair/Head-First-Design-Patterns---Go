@@ -20,16 +20,30 @@ func (l *Light) Off() {
 	fmt.Println("Light is off")
 }
 
-type LightCommand struct {
-	*Light
+type LightOnCommand struct {
+	Light *Light
 }
 
-func LightOnCommand(light *Light) *LightCommand {
-	return &LightCommand{
+func NewLightOnCommand(light *Light) *LightOnCommand {
+	return &LightOnCommand{
 		Light: light,
 	}
 }
 
-func (l *LightCommand) Execute() {
-	l.On()
+func (l *LightOnCommand) Execute() {
+	l.Light.On()
+}
+
+type LightOffCommand struct {
+	*Light
+}
+
+func NewLightOffCommand(light *Light) *LightOffCommand {
+	return &LightOffCommand{
+		Light: light,
+	}
+}
+
+func (l *LightOffCommand) Execute() {
+	l.Light.Off()
 }
