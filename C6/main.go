@@ -43,6 +43,11 @@ func CommandImplements() {
 
 	remoteControl.OnButtonWasPushed(0)
 	remoteControl.OffButtonWasPushed(0)
+	remoteControl.UndoButtonWasPushed()
+	remoteControl.OffButtonWasPushed(0)
+	remoteControl.OnButtonWasPushed(0)
+	remoteControl.UndoButtonWasPushed()
+
 	remoteControl.OnButtonWasPushed(1)
 	remoteControl.OffButtonWasPushed(1)
 
