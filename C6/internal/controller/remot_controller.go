@@ -12,12 +12,14 @@ const (
 type RemoteControl struct {
 	onCommands  []command.Command
 	offCommands []command.Command
+	undoCommand command.Command
 }
 
 func NewRemoteControl() *RemoteControl {
 	return &RemoteControl{
 		onCommands:  make([]command.Command, MaxSlots),
 		offCommands: make([]command.Command, MaxSlots),
+		undoCommand: nil,
 	}
 }
 
@@ -33,6 +35,7 @@ func (r *RemoteControl) OnButtonWasPushed(slot int) {
 	}
 	if r.onCommands[slot] != nil {
 		r.onCommands[slot].Execute()
+		r.undoCommand = r.onCommands[slot]
 		return
 	}
 	fmt.Println("Slot", slot, "is not assigned to any command")
@@ -45,7 +48,14 @@ func (r *RemoteControl) OffButtonWasPushed(slot int) {
 	}
 	if r.offCommands[slot] != nil {
 		r.offCommands[slot].Execute()
+		r.undoCommand = r.offCommands[slot]
 		return
 	}
 	fmt.Println("Slot", slot, "is not assigned to any command")
+}
+
+func (r *RemoteControl) UndoButtonWasPushed() {
+	if r.undoCommand != nil {
+		r.undoCommand.Undo()
+	}
 }
